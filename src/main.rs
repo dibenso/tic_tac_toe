@@ -187,89 +187,27 @@ impl Board {
   }
 
   fn check_winner(&self) -> Player {
-    // check first row
-    let mut first = &self.positions[0];
-    let mut second = &self.positions[1];
-    let mut third = &self.positions[2];
+    let three_in_a_rows = [[0, 1, 2], [0, 3, 6], [0, 4, 8], [1, 4, 7],
+                           [2, 5, 8], [2, 4, 6], [3, 4, 5], [6, 7, 8]];
 
-    match (first, second, third) {
-      (Player::XPlayer, Player::XPlayer, Player::XPlayer) => return Player::XPlayer,
-      (Player::CirclePlayer, Player::CirclePlayer, Player::CirclePlayer) => return Player::CirclePlayer,
-      _ => Player::Empty
-    };
+    for triple_index in 0..three_in_a_rows.len() {
+      let triple = three_in_a_rows[triple_index];
 
-    // check first column
-    second = &self.positions[3];
-    third = &self.positions[6];
+      let first = triple[0];
+      let second = triple[1];
+      let third = triple[2];
+      let first = &self.positions[first];
+      let second = &self.positions[second];
+      let third = &self.positions[third];
 
-    match (first, second, third) {
-      (Player::XPlayer, Player::XPlayer, Player::XPlayer) => return Player::XPlayer,
-      (Player::CirclePlayer, Player::CirclePlayer, Player::CirclePlayer) => return Player::CirclePlayer,
-      _ => Player::Empty
-    };
+      match (first, second, third) {
+        (Player::XPlayer, Player::XPlayer, Player::XPlayer) => return Player::XPlayer,
+        (Player::CirclePlayer, Player::CirclePlayer, Player::CirclePlayer) => return Player::CirclePlayer,
+        _ => Player::Empty
+      };   
+    }
 
-    // check first diagonal
-    second = &self.positions[4];
-    third = &self.positions[8];
-
-    match (first, second, third) {
-      (Player::XPlayer, Player::XPlayer, Player::XPlayer) => return Player::XPlayer,
-      (Player::CirclePlayer, Player::CirclePlayer, Player::CirclePlayer) => return Player::CirclePlayer,
-      _ => Player::Empty
-    };
-
-    // check second column
-    first = &self.positions[1];
-    third = &self.positions[7];
-
-    match (first, second, third) {
-      (Player::XPlayer, Player::XPlayer, Player::XPlayer) => return Player::XPlayer,
-      (Player::CirclePlayer, Player::CirclePlayer, Player::CirclePlayer) => return Player::CirclePlayer,
-      _ => Player::Empty
-    };
-
-    // check third column
-    first = &self.positions[2];
-    second = &self.positions[5];
-    third = &self.positions[8];
-
-    match (first, second, third) {
-      (Player::XPlayer, Player::XPlayer, Player::XPlayer) => return Player::XPlayer,
-      (Player::CirclePlayer, Player::CirclePlayer, Player::CirclePlayer) => return Player::CirclePlayer,
-      _ => Player::Empty
-    };
-
-    // check second diagonal
-    first = &self.positions[2];
-    second = &self.positions[4];
-    third = &self.positions[6];
-
-    match (first, second, third) {
-      (Player::XPlayer, Player::XPlayer, Player::XPlayer) => return Player::XPlayer,
-      (Player::CirclePlayer, Player::CirclePlayer, Player::CirclePlayer) => return Player::CirclePlayer,
-      _ => Player::Empty
-    };
-
-    // check second row
-    first = &self.positions[3];
-    third = &self.positions[5];
-
-    match (first, second, third) {
-      (Player::XPlayer, Player::XPlayer, Player::XPlayer) => return Player::XPlayer,
-      (Player::CirclePlayer, Player::CirclePlayer, Player::CirclePlayer) => return Player::CirclePlayer,
-      _ => Player::Empty
-    };
-
-    // check third row
-    first = &self.positions[6];
-    second = &self.positions[7];
-    third = &self.positions[8];
-
-    return match (first, second, third) {
-      (Player::XPlayer, Player::XPlayer, Player::XPlayer) => Player::XPlayer,
-      (Player::CirclePlayer, Player::CirclePlayer, Player::CirclePlayer) => Player::CirclePlayer,
-      _ => Player::Empty
-    };
+    Player::Empty
   }
 }
 
