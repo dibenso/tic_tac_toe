@@ -1,7 +1,8 @@
 # Tic Tac Toe   
 A Tic Tac Toe implementation in rust.
 Game is played in terminal.
-## installation:
+![Screenshot](https://github.com/dibenso/tic_tac_toe/blob/master/screenshot.png)
+## Installation:
 ```sh
 git clone git@github.com:dibenso/tic-tac-toe.git
 ```
