@@ -94,7 +94,7 @@ impl Game {
       if counter == 9 {
         game.show_board();
         println!("Nobody won");
-        break;
+        break 'outer;
       }
 
       let current_player = match game.current_player {
@@ -113,7 +113,7 @@ impl Game {
         io::stdin().read_line(&mut input).unwrap();
         let input: i32 = input.trim().parse().unwrap();
 
-        if input >= 0 && input <= 8 {
+        if input >= 1 && input <= 9 {
           if game.do_move((input - 1) as usize) {
             break 'inner;
           } else {
