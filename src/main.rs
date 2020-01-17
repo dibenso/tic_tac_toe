@@ -90,40 +90,50 @@ impl Game {
     let mut game = Game::new();
     let mut counter = 0;
 
-    loop {
+    'outer: loop {
       if counter == 9 {
         game.show_board();
         println!("Nobody won");
         break;
       }
 
-      let mut input = String::new();
       let current_player = match game.current_player {
         Player::XPlayer => "X",
         Player::CirclePlayer => "O",
         Player::Empty => unreachable!()
       };
 
-      game.show_board();
-      game.show_free_positions();
+      'inner: loop {
+        game.show_board();
+        game.show_free_positions();
 
-      println!("Player {}, which position do you want to pick? ", current_player);
+        println!("Player {}, which position do you want to pick? ", current_player);
 
-      io::stdin().read_line(&mut input).unwrap();
-      let input: usize = input.trim().parse().unwrap();
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+        let input: i32 = input.trim().parse().unwrap();
 
-      game.do_move(input - 1);
+        if input >= 0 && input <= 8 {
+          if game.do_move((input - 1) as usize) {
+            break 'inner;
+          } else {
+            println!("Position {} is already occupied", input);
+          }
+        } else {
+          println!("{} is not a valid position", input);
+        }
+      }
 
       match game.board.check_winner() {
         Player::XPlayer => {
           game.show_board();
           println!("X Wins!");
-          break;
+          break 'outer;
         },
         Player::CirclePlayer => {
           game.show_board();
           println!("Circle Wins!");
-          break;
+          break 'outer;
         },
         Player::Empty => {
           counter += 1;
